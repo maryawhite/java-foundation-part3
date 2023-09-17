@@ -1,31 +1,27 @@
-package com.mwhite;
+package com.mwhite.networking;
 
 import java.io.IOException;
 import java.net.*;
 
+/** To use this, you would need a server running. For example, I have another application
+ * that runs on localhost:8080 that is running while I run this application.
+ * */
 public class MyNetwork {
 
-    public static void main(String[] args) {
-        String username = "bfeeny238@hotmail.com";
-        String password = "bill2020";
+    public static void main(String[] args) throws IOException {
+        String username = "bfeeny238@hotmail.com";  //not a real username, do not expose usernames/passwords in real life.
+        String password = "bill2020";               //not a real pw, do not expose usernames/passwords in real life.
         setDefaultAuthenticator(username, password);
 
         try{
-            URL baseUrl = new URL("http://localhost:8080/ShopmeAdmin");
-            String query = "/products/page/1?sortField=name&sortDir=asc&categoryId=0";
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            URI uri = new URI(baseUrl.getProtocol(), baseUrl.getHost(), baseUrl.getPath(), query, null);
+            URL url = new URL("http://localhost:8080/ShopmeAdmin");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            System.out.println("request method is: " + connection.getRequestMethod());  //request method is: GET
+            System.out.println("response code is: " + connection.getResponseCode());    //response code is: 200
+            System.out.println("response message: " + connection.getResponseMessage()); //response message: null
 
-            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-            System.out.println("request method is: " + connection.getRequestMethod());
-            System.out.println("response code is: " + connection.getResponseCode());
-            System.out.println("response message: " + connection.getResponseMessage());
-
-            connection.disconnect();
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             System.out.println("An error occurred " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("An error occurred.");
         }
     }
 
